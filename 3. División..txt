@@ -1,0 +1,35 @@
+section .data
+    num1 dd 10
+    num2 dd 3
+    msg db  "El resultado de dividir num1 por num2 es: "
+    len equ $ - msg
+
+section .bss
+    result resb 32
+
+section .text
+global _start
+
+_start:
+    mov     eax, [num1]
+    cdq
+    mov     ebx, [num2]
+    idiv    ebx
+    add     eax, '0'
+    mov     [result], al
+
+    mov     ecx, msg
+    mov     edx, len
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     ecx, result
+    mov     edx, 1
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     eax, 1
+    xor     ebx, ebx
+    int     0x80

@@ -1,0 +1,38 @@
+section .data
+    num1 db 5
+    num2 db 3
+    msg db  "El resultado de multiplicar num1 por num2 es: "
+    len equ $ - msg
+
+section .bss
+    result resb 3
+
+section .text
+global _start
+
+_start:
+    mov     al, [num1]
+    mul     byte [num2]
+    mov     bl, 10
+    div     bl
+    add     al, '0'
+    mov     [result], al
+    mov     al, ah
+    add     al, '0'
+    mov     [result + 1], al
+
+    mov     ecx, msg
+    mov     edx, len
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     ecx, result
+    mov     edx, 2
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     eax, 1
+    xor     ebx, ebx
+    int     0x80

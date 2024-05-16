@@ -1,0 +1,33 @@
+section .data
+    msg db  "El resultado de restar int1, int2 e int3 es: ", 0xA
+    len equ $ - msg 
+
+section .bss
+    result resb 5      
+
+section .text
+global _start
+
+_start:
+    mov     ax, 10
+    sub     ax, 5
+    sub     ax, 3
+
+    add     ax, '0'
+    mov     [result], ax
+
+    mov     ecx, msg
+    mov     edx, len
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     ecx, result
+    mov     edx, 2       
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    mov     eax, 1
+    xor     ebx, ebx
+    int     0x80
